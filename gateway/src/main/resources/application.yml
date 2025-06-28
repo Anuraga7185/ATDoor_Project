@@ -1,35 +1,22 @@
 server:
   port: 8084
-
+  address: 0.0.0.0
 
 spring:
   application:
     name: API-GATEWAY
-  cloud:
-    gateway:
-      mvc:
-        routes:
-        - id: PRODUCT-SERVICE
-          uri: lb://PRODUCT-SERVICE
-          predicates:
-            - Path=/book/**
-        - id: JWT-DEMO
-          uri: lb://JWT-DEMO
-          predicates:
-            - Path=/auth/**
-        - id: URL-SHORTENER
-          uri: lb://URL-SHORTENER
-          predicates:
-            - Path=/droppart/urls/**    
-
 
 eureka:
   client:
     fetch-registry: true
     register-with-eureka: true
     service-url:
-      defaultZone: http://127.0.0.1:8761/eureka
+      defaultZone: http://localhost:8761/eureka
   instance:
-    prefer-ip-address: true
-    ip-address: 192.168.1.6
-    hostname: 192.168.1.6
+    prefer-ip-address: false
+    hostname: localhost
+
+logging:
+  level:
+    com.netflix.discovery: DEBUG
+
