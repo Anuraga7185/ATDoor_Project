@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: springboot_app
+    ports:
+      - "8080:8080"  # Mapping Spring Boot app's port
+    depends_on:
+      - mongo
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://mongo:27017/users
+    networks:
+      - app-network
+
+  mongo:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"  # Mapping MongoDB's default port
+    networks:
+      - app-network
+    volumes:
+      - mongo_data:/data/db  # Mount volume for persistence
+
+networks:
+  app-network:
+    driver: bridge
+
+volumes:
+  mongo_data:
+    driver: local
